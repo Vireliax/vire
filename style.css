@@ -57,7 +57,7 @@ a {
     padding-bottom: 35px;
 }
 .links :hover {
-    text-decoration: underline;
+    text-decoration: underline #D3D3D3;
         color: #D3D3D3;
 }
 .links a {
