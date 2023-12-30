@@ -58,7 +58,8 @@ a {
 }
 .links :hover {
     text-decoration: underline;
+        color: #D3D3D3;
 }
 .links a {
-    color: #D3D3D3;
+    color: whitesmoke;
 }
