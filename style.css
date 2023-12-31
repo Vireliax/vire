@@ -36,7 +36,7 @@ a {
     text-decoration: none;
     color: whitesmoke;
 }
-.n-bar a :hover {
+.n-links :hover {
         color: black;
 }
 .v {
