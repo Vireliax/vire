@@ -17,6 +17,9 @@ header {
 }
 header :hover {
         color: #D3D3D3;
+    pading-right: 0px;
+    padding-left: 0px;
+    margin: 0px;
 }
 .n-bar {
     background-color: #0f0f0f;
