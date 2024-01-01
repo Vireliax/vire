@@ -11,6 +11,8 @@ body {
 header {
     font-size: 25px;
     cursor: pointer;
+    pading-right: 0px;
+    padding-left: 0px;
 }
 header :hover {
         color: #D3D3D3;
