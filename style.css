@@ -16,7 +16,6 @@ header h1 {
     padding-right: 0px;
     padding-left: 0px;
     width: fit-content;
-    margin: 0 auto;
 }
 header h1 :hover {
         color: #D3D3D3;
