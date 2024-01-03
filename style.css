@@ -10,16 +10,17 @@ body {
 }
 
 header h1 {
-    font-size: 35px;
-    cursor: pointer;
+    font-size: 55px;
+
     padding-right: 0px;
     padding-left: 0px;
     width: fit-content;
     text-align: center;
 }
-header h1 :hover {
+header h1:hover {
         color: #D3D3D3;
     text-align: center;
+        cursor: pointer;
 
 }
 .n-bar {
