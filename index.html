@@ -1,159 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <style>
-        /* General Styles */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom right, #00c6ff, #0072ff);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100%;
-        }
-
-        .card {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Subtle shadow */
-            border: 1px solid #e0e0e0; /* Subtle border */
-            width: 300px;
-            padding: 20px;
-            text-align: center;
-            transform: scale(1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
-        }
-
-        .card img {
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            margin-bottom: 15px;
-        }
-
-        .card h2 {
-            font-weight: 600;
-            margin-top: 10px;
-            color: #333;
-            font-size: 24px;
-        }
-
-        .card p {
-            font-weight: 400;
-            color: #777;
-            font-size: 14px;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-icons a {
-            color: #333;
-            font-size: 20px;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .social-icons a:hover {
-            opacity: 0.8;
-        }
-
-        .social-icons a.discord:hover {
-            color: #7289da; /* Discord Blue */
-        }
-
-        .social-icons a.instagram:hover {
-            color: #e4405f; /* Instagram Red */
-        }
-
-        .social-icons a.facebook:hover {
-            color: #1877f2; /* Facebook Blue */
-        }
-
-        /* Mobile Support (Responsive) */
-        @media screen and (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-
-            .card {
-                width: 100%;
-                max-width: 350px; /* Ensures the card doesn't stretch too wide on small screens */
-                padding: 15px;
-            }
-
-            .card img {
-                width: 80px; /* Smaller profile picture on mobile */
-                height: 80px;
-            }
-
-            .card h2 {
-                font-size: 20px; /* Smaller font size on mobile */
-            }
-
-            .card p {
-                font-size: 12px; /* Smaller text for better readability */
-            }
-
-            .social-icons a {
-                font-size: 18px; /* Smaller icon size on mobile */
-            }
-        }
-
-        /* Tablet Support */
-        @media screen and (max-width: 768px) {
-            .card {
-                width: 90%;
-                max-width: 400px; /* Adjust card size for tablets */
-            }
-
-            .card img {
-                width: 90px; /* Adjust profile picture size for tablets */
-                height: 90px;
-            }
-
-            .card h2 {
-                font-size: 22px;
-            }
-
-            .card p {
-                font-size: 13px;
-            }
-
-            .social-icons a {
-                font-size: 19px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Discord Embed Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #2c2f33;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .form-section, .preview-section {
+      flex: 1 1 400px;
+      background: #23272a;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      border: none;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 16px;
+      background: #7289da;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .embed {
+      border-left: 4px solid #7289da;
+      padding: 16px;
+      border-radius: 6px;
+      background-color: #2f3136;
+    }
+    .embed-title {
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .embed-description {
+      margin-top: 8px;
+    }
+    .embed-image {
+      margin-top: 10px;
+      max-width: 100%;
+      border-radius: 4px;
+    }
+  </style>
 </head>
 <body>
-    <div class="card">
-        <img src="image.png" alt="Logo" />
-        <h2>Vireliax</h2>
-        <p>Gamer</p>
-        <div class="social-icons">
-            <a href="https://discord.com" target="_blank" class="discord"><i class="fab fa-discord"></i></a>
-            <a href="https://instagram.com" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://facebook.com" target="_blank" class="facebook"><i class="fab fa-facebook"></i></a>
-        </div>
+
+<h1>Discord Embed Generator</h1>
+
+<div class="container">
+  <div class="form-section">
+    <label>Webhook URL:</label>
+    <input type="text" id="webhookUrl" placeholder="Paste your webhook URL here">
+
+    <label>Username:</label>
+    <input type="text" id="username" placeholder="Bot Username">
+
+    <label>Avatar URL:</label>
+    <input type="text" id="avatarUrl" placeholder="Bot Avatar URL">
+
+    <label>Embed Title:</label>
+    <input type="text" id="embedTitle" placeholder="Title">
+
+    <label>Embed Description:</label>
+    <textarea id="embedDescription" placeholder="Description"></textarea>
+
+    <label>Embed Color:</label>
+    <input type="color" id="embedColor" value="#7289da">
+
+    <label>Attachment (any file type):</label>
+    <input type="file" id="attachmentInput">
+
+    <button onclick="sendMessage()">Send Message</button>
+  </div>
+
+  <div class="preview-section">
+    <h2>Live Preview</h2>
+    <div class="embed" id="embedPreview">
+      <div class="embed-title" id="previewTitle">Title goes here</div>
+      <div class="embed-description" id="previewDescription">Description goes here</div>
+      <img id="previewImage" class="embed-image" style="display: none;">
     </div>
+  </div>
+</div>
+
+<script>
+  const embedTitle = document.getElementById('embedTitle');
+  const embedDescription = document.getElementById('embedDescription');
+  const embedColor = document.getElementById('embedColor');
+  const previewTitle = document.getElementById('previewTitle');
+  const previewDescription = document.getElementById('previewDescription');
+  const previewImage = document.getElementById('previewImage');
+  const embedPreview = document.getElementById('embedPreview');
+  const attachmentInput = document.getElementById('attachmentInput');
+
+  function updatePreview() {
+    previewTitle.textContent = embedTitle.value || 'Title goes here';
+    previewDescription.textContent = embedDescription.value || 'Description goes here';
+    embedPreview.style.borderLeftColor = embedColor.value;
+  }
+
+  embedTitle.addEventListener('input', updatePreview);
+  embedDescription.addEventListener('input', updatePreview);
+  embedColor.addEventListener('input', updatePreview);
+
+  attachmentInput.addEventListener('change', () => {
+    const file = attachmentInput.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        previewImage.src = e.target.result;
+        previewImage.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      previewImage.style.display = 'none';
+    }
+  });
+
+  async function sendMessage() {
+    const webhookUrl = document.getElementById('webhookUrl').value;
+    const username = document.getElementById('username').value;
+    const avatarUrl = document.getElementById('avatarUrl').value;
+    const colorHex = embedColor.value.replace('#', '');
+    const colorInt = parseInt(colorHex, 16);
+
+    const embed = {
+      title: embedTitle.value,
+      description: embedDescription.value,
+      color: colorInt
+    };
+
+    const formData = new FormData();
+    const file = attachmentInput.files[0];
+
+    const payload = {
+      username,
+      avatar_url: avatarUrl,
+      embeds: [embed]
+    };
+
+    formData.append("payload_json", JSON.stringify(payload));
+    if (file) {
+      formData.append("file", file);
+    }
+
+    try {
+      const res = await fetch(webhookUrl, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (res.ok) {
+        alert('Message sent!');
+      } else {
+        alert('Failed to send message. Check your webhook URL and try again.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error sending message.');
+    }
+  }
+
+  updatePreview();
+</script>
+
 </body>
 </html>
