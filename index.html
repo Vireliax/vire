@@ -18,7 +18,7 @@
       --bg-embed: #2f3136;   /* Discord Embed BG */
 
       --text-primary: #dcddde; /* Discord Light Grey Text */
-      --text-secondary: #b9bbbe;/* Discord Grey Text */
+      --text-secondary: #b9bbbe;/* Discord Grey Text (for footer/timestamp) */
       --text-header: #ffffff;  /* White */
       --text-link: #00aff4;    /* Discord Link Blue */
 
@@ -189,28 +189,139 @@
       background-color: var(--bg-embed);
       word-wrap: break-word; /* Prevent long text overflow */
       margin-top: calc(var(--spacing-unit) * 2); /* Space below h2 */
+      display: flex; /* Use flexbox for layout */
+      flex-direction: column; /* Stack content vertically */
     }
+
+    .embed > *:not(.embed-footer) {
+        margin-bottom: var(--spacing-unit); /* Add space between embed sections */
+    }
+     .embed > *:last-child {
+        margin-bottom: 0; /* No bottom margin for the last item (which might be the footer) */
+     }
+
 
     .embed-title {
       font-weight: 700; /* Bolder title */
       font-size: 1.1em; /* Slightly larger title */
       color: var(--text-header);
-      margin-bottom: var(--spacing-unit); /* Space below title */
+      /* margin-bottom is handled by the general rule above */
     }
 
     .embed-description {
-      margin-top: 0; /* Reset original margin */
+      /* Markdown specific styles will apply to children elements */
       font-size: 0.95em; /* Slightly smaller desc */
       line-height: 1.5;
       color: var(--text-primary);
+       /* margin-bottom is handled by the general rule above */
+    }
+
+    /* Styles for Markdown rendering within .embed-description */
+    .embed-description p {
+        margin-bottom: var(--spacing-unit); /* Add space between paragraphs */
+    }
+    .embed-description p:last-child {
+        margin-bottom: 0; /* Remove bottom margin from last paragraph */
+    }
+     .embed-description p:first-child {
+        margin-top: 0; /* Remove top margin from first paragraph */
+    }
+
+    .embed-description strong { font-weight: bold; }
+    .embed-description em { font-style: italic; }
+    .embed-description u { text-decoration: underline; }
+    .embed-description del { text-decoration: line-through; }
+
+    .embed-description a {
+        color: var(--text-link);
+        text-decoration: none; /* Remove default underline */
+    }
+    .embed-description a:hover {
+        text-decoration: underline; /* Add underline on hover */
+    }
+
+    .embed-description code { /* Inline code */
+        background-color: rgba(120, 120, 120, 0.1); /* Subtle grey background */
+        border-radius: 3px;
+        padding: 0 4px;
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        font-size: 0.85em;
+    }
+
+    .embed-description pre { /* Block code */
+        background-color: rgba(0, 0, 0, 0.3); /* Darker background */
+        border-radius: var(--border-radius-small);
+        padding: var(--spacing-unit);
+        margin: var(--spacing-unit) 0;
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        font-size: 0.9em;
+        white-space: pre-wrap; /* Handle wrapping */
+        word-break: break-all; /* Break long words */
+        overflow-x: auto; /* Add horizontal scroll if needed */
+    }
+
+    .embed-description pre code { /* Code *inside* pre */
+         background-color: transparent; /* Remove specific background */
+         padding: 0;
+         font-size: 1em; /* Inherit size or set relative */
+         border-radius: 0;
+    }
+
+    /* Spoiler Styling (basic hover reveal) */
+    .embed-description .spoiler {
+        background-color: rgba(255, 255, 255, 0.1); /* Subtle background */
+        transition: background-color 0.2s ease; /* Transition on hover/reveal */
+        padding: 0 2px; /* Small padding */
+    }
+
+    .embed-description .spoiler:hover {
+        background-color: transparent; /* Reveal background on hover */
+    }
+     /* Note: A true click-to-reveal spoiler is more complex with JS */
+
+
+    .embed-description ul, .embed-description ol {
+        padding-left: 24px; /* Basic list indentation */
+        margin-bottom: var(--spacing-unit);
+        margin-top: var(--spacing-unit);
+    }
+    .embed-description li {
+         margin-bottom: var(--spacing-unit)/2;
+    }
+
+    /* Placeholder style for description */
+    .embed-description .placeholder {
+        color: var(--text-secondary);
+        font-style: italic;
     }
 
     .embed-image {
-      margin-top: calc(var(--spacing-unit) * 2); /* 16px */
+      margin-top: var(--spacing-unit); /* Adjusted margin top */
       max-width: 100%;
       max-height: 300px; /* Limit image preview height */
       object-fit: contain; /* Prevent stretching */
       border-radius: var(--border-radius-small);
+       /* margin-bottom is handled by the general rule above */
+    }
+
+    /* --- Footer Styles --- */
+    .embed-footer {
+        display: flex; /* Align icon and text */
+        align-items: center; /* Vertically center */
+        margin-top: var(--spacing-unit); /* Space above footer */
+        padding-top: var(--spacing-unit); /* Space below last element */
+        border-top: 1px solid rgba(255, 255, 255, 0.08); /* Subtle separator line */
+        font-size: 0.75em; /* Smaller font size */
+        color: var(--text-secondary); /* Grey text color */
+    }
+
+    .embed-footer-icon {
+        width: 20px; /* Icon size */
+        height: 20px; /* Icon size */
+        border-radius: 50%; /* Make it round */
+        object-fit: cover; /* Crop image if needed */
+        margin-right: var(--spacing-unit); /* Space between icon and text */
+        flex-shrink: 0; /* Prevent shrinking */
     }
 
     /* --- Responsiveness --- */
@@ -242,6 +353,9 @@
       .embed {
         padding: var(--spacing-unit); /* Reduce embed padding */
       }
+      .embed-description ul, .embed-description ol {
+        padding-left: 16px; /* Reduce list padding on smaller screens */
+      }
     }
 
   </style>
@@ -265,23 +379,40 @@
     <input type="text" id="embedTitle" placeholder="Title">
 
     <label>Embed Description:</label>
-    <textarea id="embedDescription" placeholder="Description"></textarea>
+    <textarea id="embedDescription" placeholder="Description (Supports Markdown)"></textarea>
 
     <label>Embed Color:</label>
-    <input type="color" id="embedColor" value="#5865F2"> <label>Attachment (any file type):</label>
+    <input type="color" id="embedColor" value="#5865F2">
+
+    <label>Attachment (any file type):</label>
     <input type="file" id="attachmentInput">
+
+    <label>Footer Text:</label>
+    <input type="text" id="footerText" placeholder="Footer text (Optional)">
+
+    <label>Footer Icon URL:</label>
+    <input type="url" id="footerIconUrl" placeholder="Footer icon URL (Optional)">
 
     <button onclick="sendMessage()">Send Message</button>
   </div>
 
   <div class="preview-section">
-    <h2>Live Preview</h2> <div class="embed" id="embedPreview">
+    <h2>Live Preview</h2>
+    <div class="embed" id="embedPreview">
       <div class="embed-title" id="previewTitle">Title goes here</div>
-      <div class="embed-description" id="previewDescription">Description goes here</div>
+      <div class="embed-description" id="previewDescription">
+        <p class="placeholder">Description goes here</p>
+      </div>
       <img id="previewImage" class="embed-image" style="display: none;">
+      <div class="embed-footer" id="previewFooter" style="display: none;">
+           <img id="previewFooterIcon" class="embed-footer-icon" style="display: none;" alt="">
+           <span id="previewFooterText"></span>
+      </div>
     </div>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <script>
   const embedTitle = document.getElementById('embedTitle');
@@ -292,21 +423,46 @@
   const previewImage = document.getElementById('previewImage');
   const embedPreview = document.getElementById('embedPreview');
   const attachmentInput = document.getElementById('attachmentInput');
-  const usernameInput = document.getElementById('username'); // Get username input
-  const avatarUrlInput = document.getElementById('avatarUrl'); // Get avatar input
+  const usernameInput = document.getElementById('username');
+  const avatarUrlInput = document.getElementById('avatarUrl');
+  const footerTextInput = document.getElementById('footerText'); // Get footer text input
+  const footerIconUrlInput = document.getElementById('footerIconUrl'); // Get footer icon URL input
+  const previewFooter = document.getElementById('previewFooter'); // Get preview footer div
+  const previewFooterIcon = document.getElementById('previewFooterIcon'); // Get preview footer icon img
+  const previewFooterText = document.getElementById('previewFooterText'); // Get preview footer text span
+
+
+  // Configure marked to match Discord's behavior more closely (optional but good)
+  marked.setOptions({
+    breaks: true, // Render GitHub-style <br> on single line breaks
+    gfm: true,    // Use GitHub flavored markdown
+    // We'll handle spoilers separately as marked doesn't support them natively
+  });
 
 
   function updatePreview() {
     previewTitle.textContent = embedTitle.value || 'Title goes here';
-    previewDescription.textContent = embedDescription.value || 'Description goes here';
     embedPreview.style.borderLeftColor = embedColor.value;
-  }
 
-  embedTitle.addEventListener('input', updatePreview);
-  embedDescription.addEventListener('input', updatePreview);
-  embedColor.addEventListener('input', updatePreview);
+    const descriptionText = embedDescription.value;
 
-  attachmentInput.addEventListener('change', () => {
+    if (descriptionText.trim() === '') {
+        // Show placeholder if description is empty or just whitespace
+        previewDescription.innerHTML = '<p class="placeholder">Description goes here</p>';
+    } else {
+        // Basic spoiler replacement before passing to marked
+        // Replaces ||text|| with ||<span class="spoiler">text</span>||
+        const spoilerRegex = /\|\|(.+?)\|\|/g;
+        const textWithSpoilers = descriptionText.replace(spoilerRegex, '||<span class="spoiler">$1</span>||');
+
+        // Use marked to parse the text into HTML
+        const renderedHTML = marked.parse(textWithSpoilers);
+
+        // Set the innerHTML of the description div
+        previewDescription.innerHTML = renderedHTML;
+    }
+
+    // Handle image preview based on attachment input
     const file = attachmentInput.files[0];
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
@@ -318,18 +474,74 @@
     } else {
       previewImage.style.display = 'none';
     }
-  });
+
+    // --- Handle Footer Preview ---
+    const footerText = footerTextInput.value;
+    const footerIconUrl = footerIconUrlInput.value;
+
+    if (footerText) {
+        previewFooterText.textContent = footerText; // Set footer text
+        previewFooter.style.display = 'flex'; // Show the footer container
+
+        if (footerIconUrl) {
+            previewFooterIcon.src = footerIconUrl; // Set icon source
+            previewFooterIcon.style.display = 'block'; // Show the icon
+        } else {
+            previewFooterIcon.src = ''; // Clear icon source
+            previewFooterIcon.style.display = 'none'; // Hide the icon
+        }
+    } else {
+        // Hide footer if no text is provided
+        previewFooterText.textContent = '';
+        previewFooterIcon.src = '';
+        previewFooterIcon.style.display = 'none';
+        previewFooter.style.display = 'none';
+    }
+    // Note: Timestamp is added by Discord based on the payload, not previewed here.
+  }
+
+  // Listen for input changes on form fields to update the preview
+  embedTitle.addEventListener('input', updatePreview);
+  embedDescription.addEventListener('input', updatePreview);
+  embedColor.addEventListener('input', updatePreview);
+  attachmentInput.addEventListener('change', updatePreview); // Update preview when file is selected
+  footerTextInput.addEventListener('input', updatePreview); // Update preview when footer text changes
+  footerIconUrlInput.addEventListener('input', updatePreview); // Update preview when footer icon URL changes
+
 
   async function sendMessage() {
     const webhookUrl = document.getElementById('webhookUrl').value;
+    if (!webhookUrl) {
+        alert('Please enter a Webhook URL.');
+        return; // Stop the function if no webhook URL
+    }
+
     const colorHex = embedColor.value.replace('#', '');
     const colorInt = parseInt(colorHex, 16);
+    const footerText = footerTextInput.value;
+    const footerIconUrl = footerIconUrlInput.value;
+
 
     const embed = {
       title: embedTitle.value,
-      description: embedDescription.value,
+      description: embedDescription.value, // Send the raw markdown text to Discord
       color: colorInt
+      // Note: Author, Fields, Image URL (from URL), Thumbnail would need more inputs/logic
     };
+
+    // Add footer only if footer text is provided
+    if (footerText) {
+        embed.footer = {
+            text: footerText
+            // You can add 'icon_url' here if the input is not empty
+        };
+         if (footerIconUrl) {
+            embed.footer.icon_url = footerIconUrl;
+        }
+        // Optionally add timestamp:
+        // embed.timestamp = new Date().toISOString(); // Discord will usually add its own if desired
+    }
+
 
     const formData = new FormData();
     const file = attachmentInput.files[0];
@@ -346,8 +558,10 @@
       payload.avatar_url = avatarUrlInput.value;
     }
 
-
+    // Append the payload JSON first
     formData.append("payload_json", JSON.stringify(payload));
+
+    // Append the file if one is selected
     if (file) {
       formData.append("file", file);
     }
@@ -359,23 +573,32 @@
       });
 
       if (res.ok) {
-        alert('Message sent!');
+        alert('Message sent successfully!');
+        // Clear form or reset state if needed
       } else {
         // Attempt to read error response from Discord
-        let errorText = 'Failed to send message. Check your webhook URL and try again.';
+        let errorText = `Failed to send message. Status: ${res.status}`;
         try {
             const errorData = await res.json();
             if (errorData && errorData.message) {
                 errorText += `\nDiscord API Error: ${errorData.message}`;
             }
+            if (errorData && errorData.errors) {
+                 // Attempt to parse validation errors
+                 errorText += '\nValidation Errors:';
+                 for (const field in errorData.errors) {
+                     errorText += `\n - ${field}: ${JSON.stringify(errorData.errors[field])}`;
+                 }
+            }
         } catch (e) {
             // Ignore JSON parsing errors if the response wasn't JSON
+            errorText += `\nResponse body: ${await res.text()}`; // Include raw response if not JSON
         }
         alert(errorText);
       }
     } catch (err) {
-      console.error(err);
-      alert('Error sending message.');
+      console.error('Fetch error:', err);
+      alert('An error occurred while sending the message.');
     }
   }
 
